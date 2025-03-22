@@ -17,7 +17,7 @@ function DashBoard() {
   const [getBillsList, { data, isSuccess, isError }] =
     useLazyGetBillsListQuery();
 
-  const [income, setIncome] = useState(5000);
+  const [income, setIncome] = useState(50000);
   const [totalAmount, setTotalAmount] = useState(0);
 
   const [addNewBill,{isLoading:isAddBillLoading}] = useAddNewBillMutation();

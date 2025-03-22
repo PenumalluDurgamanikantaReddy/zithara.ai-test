@@ -1,7 +1,7 @@
 
 
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend } from "recharts";
 
@@ -13,8 +13,9 @@ function Statastics() {
 
       return {name:eachBill.transaction,value:eachBill.amount}
     })
+  const [income, setIncome] = useState(50000);
 
-    const totalAmount = data.reduce((prev,curr)=> prev+curr?.amount,0)
+    const totalExpenditureAmount = data.reduce((prev,curr)=> prev+curr?.amount,0)
     
     // [
     //     { name: "Food", value: 4000 },
@@ -39,25 +40,30 @@ function Statastics() {
       
       <div>
 
-        <p className='  text-3xl   font-bold'>Statastics</p>
+        <p className='  text-3xl   font-bold'>Statastics - Expenditure</p>
       </div>
 
-<div className=' flex w-full  justify-between  px-4'>
-<div className="flex  flex-col justify-center">
-        <BarChart width={500} height={300} data={barChartData}>
+    <div className=' flex w-full justify-between items-center  px-4'>
+<div className="flex  flex-col    justify-center">
+        <BarChart width={500} height={300} data={[...barChartData,{name:"Balance",amount:income - totalExpenditureAmount}]}>
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Bar dataKey="amount" fill="#8884d8" />
         </BarChart>
+        <div className=' flex'><p className=' font-semibold text-lg'>Total Income:</p><p className=' font-semibold text-lg'>{income}</p></div>
 
-        <div className=' flex'><p className=' font-semibold text-lg'>Total:</p><p className=' font-semibold text-lg'>{totalAmount}</p></div>
+        <div className=' flex'><p className=' font-semibold text-lg'>Total Expenditure:</p><p className=' font-semibold text-lg'>{totalExpenditureAmount}</p></div>
+        <div className=' flex'><p className=' font-semibold text-lg'>Balance Amount:</p><p className=' font-semibold text-lg'>{totalExpenditureAmount-income}</p></div>
+
+
+      
       </div>
 
       {/* Pie Chart */}
-      <div className="flex flex-col justify-center">
-        <PieChart width={400} height={400}>
-          <Pie data={pieChartData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120}>
+      <div className="flex flex-col  justify-center">
+        <PieChart width={400} height={300}>
+          <Pie data={[...pieChartData,{name:"Balance",value:income - totalExpenditureAmount}]} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120}>
             {pieChartData.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
@@ -65,8 +71,10 @@ function Statastics() {
           <Legend />
           <Tooltip />
         </PieChart>
-        <div className=' flex'><p className=' font-semibold text-lg'>Total:</p><p className=' font-semibold text-lg'>{totalAmount}</p></div>
+        <div className=' flex'><p className=' font-semibold text-lg'>Total Income:</p><p className=' font-semibold text-lg'>{income}</p></div>
 
+        <div className=' flex'><p className=' font-semibold text-lg'>Total Expenditure:</p><p className=' font-semibold text-lg'>{totalExpenditureAmount}</p></div>
+        <div className=' flex'><p className=' font-semibold text-lg'>Balance Amount:</p><p className=' font-semibold text-lg'>{income-totalExpenditureAmount}</p></div>
       </div>
 
 
